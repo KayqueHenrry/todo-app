@@ -31,10 +31,9 @@ app.get('/', (requisicao,resposta) => {
                 completa: dado.completa === 0 ? false : true
             }
         })
-        
-        
+            
+        resposta.render('home', {tarefas})
     })
-    resposta.render('home')
 })
 
 app.post('/criar', (requisicao, resposta) => {
