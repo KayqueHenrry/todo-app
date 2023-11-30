@@ -16,6 +16,23 @@ app.use(express.urlencoded({
 
 app.use(express.json())
 
+app.post('/completar', (requisicao, resposta) => {
+    const id = requisicao.body.id
+    
+    const sql = `
+        UPDATE tarefas
+        SET completa = '1'
+        WHERE id = ${id}
+    `
+
+    conexao.query(sql, (erro) => {
+        if (erro) {
+            return console.log(erro)
+        }
+        resposta.redirect('/')
+    })
+})
+
 app.get('/', (requisicao,resposta) => {
     const sql = 'SELECT * FROM tarefas'
 
@@ -31,7 +48,7 @@ app.get('/', (requisicao,resposta) => {
                 completa: dado.completa === 0 ? false : true
             }
         })
-            
+
         resposta.render('home', {tarefas})
     })
 })
